@@ -1,65 +1,43 @@
 body {
-    margin: 0;
     font-family: Arial, sans-serif;
-    background: #f4f4f9;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-.login-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
 form {
-    display: flex;
-    flex-direction: column;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 300px;
 }
 
-.input-group {
-    margin-bottom: 15px;
+label {
+    margin-bottom: 5px;
 }
 
 input[type="text"],
 input[type="password"],
-button {
-    width: 100%; /* Ensures full container width */
-    padding: 16px; /* Consistent padding */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Includes padding and border in the element's total width */
-}
-
-button {
-    background: #5c67f2;
-    color: white;
-    border: none; /* Remove border for button to maintain size consistency */
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-button:hover {
-    background: #4a54e1;
-}
-
-.input-group {
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
     margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
 }
 
-.message {
-    margin-top: 20px;
-    font-size: 0.9em;
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
 }
 
-.message a {
-    color: #5c67f2;
-    text-decoration: none;
-}
-
-h2 {
-    text-align: center;
+input[type="submit"]:hover {
+    background-color: #005
 }

@@ -1,27 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="login.component.css">
-</head>
-<body>
-    <div class="login-container">
-        <form id="loginForm">
-            <h2>Login</h2>
-            <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Login</button>
-            <p class="message">Not registered? <a href="#">Create an account</a></p>
-        </form>
+<form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" formControlName="username"><br>
+    <div *ngIf="loginForm.get('username')?.errors?.['required'] && loginForm.get('username')?.touched">
+      Username is required.
     </div>
-    <script src="login.component.js"></script>
-</body>
-</html>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" formControlName="password"><br>
+    <div *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
+      Password is required.
+    </div><br>
+    <input type="submit" value="Login">
+    <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </form>
+  
