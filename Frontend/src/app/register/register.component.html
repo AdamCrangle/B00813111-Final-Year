@@ -1,1 +1,48 @@
-<p>register works!</p>
+<nav class="navbar">
+    <ul>
+      <li><button routerLink="login" class="nav-button">Login</button></li>
+      <li><button routerLink="register" class="nav-button">Register</button></li>
+    </ul>
+  </nav>
+<form *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" formControlName="email" class="form-control" aria-describedby="email-error">
+      <div id="email-error" *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched" class="error-message">
+        Email is required.
+      </div>
+      <div id="email-error" *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched" class="error-message">
+        Please enter a valid email.
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" formControlName="username" class="form-control" aria-describedby="username-error">
+      <div id="username-error" *ngIf="registerForm.get('username')?.errors?.['required'] && registerForm.get('username')?.touched" class="error-message">
+        Username is required.
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" formControlName="password" class="form-control" aria-describedby="password-error">
+      <div id="password-error" *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched" class="error-message">
+        Password is required.
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="confirm-password">Confirm Password:</label>
+      <input type="password" id="confirm-password" formControlName="confirmPassword" class="form-control" aria-describedby="confirm-password-error">
+      <div id="confirm-password-error" *ngIf="registerForm.get('confirmPassword')?.errors?.['required'] && registerForm.get('confirmPassword')?.touched" class="error-message">
+        Confirming password is required.
+      </div>
+      <div id="confirm-password-error" *ngIf="registerForm.errors?.['passwordMismatch']" class="error-message">
+        Passwords do not match.
+      </div>
+    </div>
+  
+    <button type="submit" class="submit-button">Register</button>
+  </form>
+  
