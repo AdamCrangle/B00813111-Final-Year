@@ -1,0 +1,104 @@
+.search-container {
+  width: 80%;
+  margin: 50px auto 0; /* Added top margin to push the container down */
+  font-family: 'Arial', sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #34495e; /* Dark Gray */
+}
+
+.search-box {
+  display: flex;
+  align-items: center; /* Align the items vertically */
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-dropdown, .search-input, .btn-search {
+  margin: 0 5px; /* Add margin to all sides for consistent spacing */
+}
+
+.search-dropdown {
+  padding: 10px; /* Increased padding for better alignment */
+  border-radius: 4px;
+  border: 1px solid #bdc3c7; /* Light gray border */
+  background-color: #ecf0f1; /* Light gray background */
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px; /* Increased padding for better alignment */
+  border-radius: 4px;
+  border: 1px solid #bdc3c7; /* Light gray border */
+  background-color: #ecf0f1; /* Light gray background */
+}
+
+.btn-search {
+  padding: 10px 20px; /* Increased padding for a larger button */
+  border: none;
+  border-radius: 4px;
+  background-color: #3498db; /* Blue */
+  color: white;
+  cursor: pointer;
+  font-weight: bold; /* Make the text bold */
+}
+
+.btn-search:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+.error {
+  color: #e74c3c; /* Red */
+  text-align: center;
+  margin: 20px 0;
+}
+
+.results-container {
+  margin-top: 20px;
+}
+
+.results-list {
+  list-style: none;
+  padding: 0;
+}
+
+.results-list li {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #bdc3c7; /* Light gray border */
+}
+
+.book-title {
+  font-size: 18px;
+  color: #34495e; /* Dark Gray */
+}
+
+.book-details {
+  font-size: 14px;
+  color: #7f8c8d; /* Gray */
+}
+
+.book-description {
+  font-size: 16px;
+  color: #34495e; /* Dark Gray */
+  margin-top: 5px;
+}
+
+.no-results {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* For screen readers only */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}

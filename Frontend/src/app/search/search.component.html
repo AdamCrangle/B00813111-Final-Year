@@ -1,14 +1,28 @@
-<!-- src/app/book-search/book-search.component.html -->
-<div>
-    <input type="text" [(ngModel)]="title" placeholder="Enter genre">
-    <button (click)="searchBooks()">Search</button>
+<div class="search-container" role="main">
+  <h1>Book Search</h1>
+  <div class="search-box">
+    <label for="searchTypeSelect" class="visually-hidden">Select Search Type</label>
+    <select id="searchTypeSelect" class="search-dropdown" [(ngModel)]="searchType" aria-label="Search Criteria">
+      <option *ngFor="let option of searchOptions" [value]="option.value">{{ option.label }}</option>
+    </select>
+    <input type="text" id="searchInput" class="search-input" placeholder="Enter keyword" #searchInput (keyup.enter)="searchBooks(searchInput.value)" aria-label="Search Input">
+    <button class="btn-search" (click)="searchBooks(searchInput.value)">Search</button>
   </div>
-  <div *ngFor="let book of books">
-    <p>Title: {{ book.title }}</p>
-    <p>Description: {{ book.description }}</p>
-    <p>Author: {{ book.author }}</p>
-    <p>Genre: {{ book.genre }}</p>
-    <p>Pages: {{ book.pages }}</p>
-    <p>Year: {{ book.year }}</p>
+  <div *ngIf="errorMessage" class="error" role="alert">{{ errorMessage }}</div>
+  <section *ngIf="books.length > 0" class="results-container" aria-labelledby="searchResultsLabel">
+    <p id="searchResultsLabel">{{ books.length }} book(s) found.</p>
+    <ul class="results-list">
+      <li *ngFor="let book of books">
+        <article>
+          <h2 class="book-title"><strong>{{ book.Title }}</strong> by {{ book.Author }}</h2>
+          <p class="book-details">Published in {{ book.Year }}, {{ book.Country }}</p>
+          <p class="book-description">{{ book.Genre }} genre, {{ book.Language }}, {{ book.Pages }} pages</p>
+          <p class="book-description">{{ book.Description }}</p>
+        </article>
+      </li>
+    </ul>
+  </section>
+  <div *ngIf="books.length === 0 && !errorMessage" class="no-results">
+    <p>No books found.</p>
   </div>
-  
+</div>

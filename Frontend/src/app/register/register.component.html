@@ -1,9 +1,3 @@
-<nav class="navbar">
-    <ul>
-      <li><button routerLink="login" class="nav-button">Login</button></li>
-      <li><button routerLink="register" class="nav-button">Register</button></li>
-    </ul>
-  </nav>
 <form *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
     <div class="form-group">
       <label for="email">Email:</label>
