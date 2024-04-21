@@ -1,6 +1,5 @@
 <nav class="navbar">
   <ul class="nav-links">
-    <li *ngIf="currentUser && isLoggedIn()"><span>Welcome to the library, {{ getUsername() }}</span></li>
     <li *ngIf="!isLoggedIn()"><a href="/" class="nav-button">Home</a></li>
     <li *ngIf="!isLoggedIn()"><a href="/login" class="nav-button">Login</a></li>
     <li *ngIf="isLoggedIn()"><a href="/account" class="nav-button">Account</a></li>

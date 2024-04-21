@@ -1,0 +1,41 @@
+<div class="account-container">
+    <h1>User Account Information</h1>
+  
+    <div class="user-info">
+      <p><strong>Username:</strong> {{ currentUser?.username }}</p>
+      <p><strong>Email:</strong> {{ currentUser?.email }}</p>
+    </div>
+  
+    <h2>Currently Rented Books</h2>
+    <div *ngIf="bookDetails.length > 0" class="books-container">
+      <ul>
+        <li *ngFor="let book of bookDetails">
+          <article class="book-info">
+            <h2 class="book-title"><strong>{{ book.Title }}</strong> by {{ book.Author }}</h2>
+            <p class="book-details">Published in {{ book.Year }}, {{ book.Country }}</p>
+            <p class="book-details">{{ book.Genre }} genre, {{ book.Language }}, {{ book.Pages }} pages</p>
+            <p class="book-description">{{ book.Description }}</p>
+          </article>
+        </li>
+      </ul>
+    </div>
+  
+    <h2>Rental History (Returned Books)</h2>
+    <div *ngIf="rentalHistoryDetails.length > 0" class="books-container">
+      <ul>
+        <li *ngFor="let book of rentalHistoryDetails">
+          <article class="book-info">
+            <h2 class="book-title"><strong>{{ book.Title }}</strong> by {{ book.Author }}</h2>
+            <p class="book-details">Published in {{ book.Year }}, {{ book.Country }}</p>
+            <p class="book-details">{{ book.Genre }} genre, {{ book.Language }}, {{ book.Pages }} pages</p>
+            <p class="book-description">{{ book.Description }}</p>
+          </article>
+        </li>
+      </ul>
+    </div>
+  
+    <div *ngIf="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+  </div>
+  

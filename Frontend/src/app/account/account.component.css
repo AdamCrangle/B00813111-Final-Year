@@ -1,0 +1,68 @@
+.account-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .user-info p,
+  .book-details {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .book-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .book-info {
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  
+  .books-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .books-container li {
+    margin-bottom: 10px;
+  }
+  
+  .book-description {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .error-message {
+    color: #ff0000;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  @media (max-width: 600px) {
+    .account-container {
+      padding: 10px;
+    }
+  
+    h1 {
+      font-size: 20px;
+    }
+  
+    .book-info {
+      padding: 10px;
+    }
+  }
+  

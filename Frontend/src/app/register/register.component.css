@@ -61,3 +61,8 @@ body {
 .submit-button:hover, .register-button:hover {
     opacity: 0.9;
 }
+h1
+{
+    font-size: large;
+    justify-content: center;
+}

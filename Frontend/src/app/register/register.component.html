@@ -1,5 +1,6 @@
 <form *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
     <div class="form-group">
+      <h1>Register</h1>
       <label for="email">Email:</label>
       <input type="email" id="email" formControlName="email" class="form-control" aria-describedby="email-error">
       <div id="email-error" *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched" class="error-message">

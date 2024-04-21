@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 import re
+import datetime
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -105,5 +106,73 @@ def get_user_by_username(username):
         return jsonify(user), 200
     else:
         return jsonify({"error": "User not found"}), 404
+    
+@app.route('/api/rent_book', methods=['POST'])
+def rent_book():
+    username = request.json.get('username')
+    book_title = request.json.get('Title')
+
+    if not username or not book_title:
+        return jsonify({"message": "Username and book title are required"}), 400
+
+    # Find the book by title to get its ID
+    book = Mongo_books.find_one({"Title": book_title})
+    if not book:
+        return jsonify({"message": "Book not found"}), 404
+
+    rent_time = datetime.datetime.now()
+
+    # Update the user document to add the book to currentlyRented
+    user_update = Mongo_users.update_one(
+        {"username": username},
+        {"$push": {"currentlyRented": {"Title": book_title, "rented_on": rent_time}}}
+    )
+
+    if user_update.modified_count > 0:
+        return jsonify({"message": "Book rented successfully"}), 200
+    else:
+        return jsonify({"message": "Failed to rent book"}), 400
+
+@app.route('/api/return_book', methods=['POST'])
+def return_book():
+    username = request.json.get('username')
+    book_title = request.json.get('Title')
+
+    if not username or not book_title:
+        return jsonify({"message": "Username and book title are required"}), 400
+
+    # Find the rental entry
+    user = Mongo_users.find_one({"username": username})
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    currently_rented = user.get('currentlyRented', [])
+    book_rental = next((item for item in currently_rented if item['Title'] == book_title), None)
+    if not book_rental:
+        return jsonify({"message": "Rental record not found"}), 404
+
+    return_time = datetime.datetime.now()
+    rent_time = book_rental['rented_on']
+
+    # Update the user document to move the book from currentlyRented to rentalHistory
+    user_update = Mongo_users.update_one(
+        {"username": username},
+        {
+            "$pull": {"currentlyRented": {"Title": book_title}},
+            "$push": {
+                "rentalHistory": {
+                    "Title": book_title,
+                    "rented_on": rent_time,
+                    "returned_on": return_time
+                }
+            }
+        }
+    )
+
+    if user_update.modified_count > 0:
+        return jsonify({"message": "Book returned successfully"}), 200
+    else:
+        return jsonify({"message": "Failed to return book"}), 400
+
 if __name__ == '__main__':
     app.run(debug=True)
