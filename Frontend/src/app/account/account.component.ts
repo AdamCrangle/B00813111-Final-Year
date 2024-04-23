@@ -25,9 +25,16 @@ export class AccountComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.updateCurrentUser();  // Fetch user information on initialization
+    this.updateCurrentUser();
   }
-
+  private getUsername(): string | null {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      return parsedData.username;  // Get the username
+    }
+    return null;
+  }
   private updateCurrentUser(): void {
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -47,7 +54,7 @@ export class AccountComponent implements OnInit {
               this.getRentalHistoryDetails(rentalHistoryTitles);  // Fetch rental history book details
             }
 
-            this.cdr.detectChanges();  // Trigger change detection
+            this.cdr.detectChanges();
           },
           error: (err) => {
             this.errorMessage = 'Error fetching user data';
@@ -111,5 +118,27 @@ export class AccountComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  public returnBook(bookTitle: string): void {
+    const username = this.getUsername();  // Fetch the current user's username
+
+    if (!username) {
+      this.errorMessage = 'User must be logged in to return a book.';
+      return;
+    }
+
+    this.http.post<any>(`${this.apiUrl}/return_book`, { username, Title: bookTitle })
+      .subscribe({
+        next: (response) => {
+          console.log('Book returned:', response.message);
+          // Update the currently rented books and rental history
+          this.updateCurrentUser();
+        },
+        error: (err) => {
+          this.errorMessage = 'Failed to return book.';
+          console.error(err);
+        }
+      });
   }
 }

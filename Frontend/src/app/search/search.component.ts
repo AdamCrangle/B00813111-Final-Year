@@ -46,4 +46,31 @@ export class SearchComponent {
         }
       });
   }
+  rentBook(bookTitle: string): void {
+    const username = this.getUsername();  // Function to get current user's username
+
+    if (!username) {
+      this.errorMessage = 'User must be logged in to rent a book.';
+      return;
+    }
+
+    this.http.post<any>(`http://localhost:5000/api/rent_book`, { username, Title: bookTitle })
+      .subscribe({
+        next: (response) => {
+          console.log('Book rented:', response.message);
+        },
+        error: (err) => {
+          this.errorMessage = `Failed to rent book.`;
+          console.error(err);
+        }
+      });
+  }
+  getUsername(): string | null {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const parsedData = JSON.parse(userData);
+      return parsedData.username;  // Extract username from user data
+    }
+    return null;
+  }
 }

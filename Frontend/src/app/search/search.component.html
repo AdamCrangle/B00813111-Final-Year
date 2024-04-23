@@ -18,6 +18,7 @@
           <p class="book-details">Published in {{ book.Year }}, {{ book.Country }}</p>
           <p class="book-description">{{ book.Genre }} genre, {{ book.Language }}, {{ book.Pages }} pages</p>
           <p class="book-description">{{ book.Description }}</p>
+          <button (click)="rentBook(book.Title)">Rent</button>
         </article>
       </li>
     </ul>
