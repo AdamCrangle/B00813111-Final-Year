@@ -1,4 +1,4 @@
-<div class="search-container" role="main">
+<div class="search-container" role="main" [style.color]="selectedFontColor" [style.fontSize.px]="selectedFontSize" [style.background-color]="selectedBgColor" [style.fontFamily]="selectedFontFamily">
   <h1>Book Search</h1>
   <div class="search-box">
     <label for="searchTypeSelect" class="visually-hidden">Select Search Type</label>
@@ -8,8 +8,15 @@
     <input type="text" id="searchInput" class="search-input" placeholder="Enter keyword" #searchInput (keyup.enter)="searchBooks(searchInput.value)" aria-label="Search Input">
     <button class="btn-search" (click)="searchBooks(searchInput.value)">Search</button>
   </div>
-  <div *ngIf="errorMessage" class="error" role="alert">{{ errorMessage }}</div>
-  <section *ngIf="books.length > 0" class="results-container" aria-labelledby="searchResultsLabel">
+
+  <!-- Display error message if there is an error -->
+  <div *ngIf="errorMessage" class="error" role="alert" aria-live="assertive">{{ errorMessage }}</div>
+
+  <!-- Display success message if a book is successfully rented -->
+  <div *ngIf="successMessage" class="success" role="alert" aria-live="assertive">{{ successMessage }}</div>
+
+  <!-- Display search results if there are books -->
+  <section *ngIf="books.length > 0" class="results-container" aria-describedby="searchResultsLabel">
     <p id="searchResultsLabel">{{ books.length }} book(s) found.</p>
     <ul class="results-list">
       <li *ngFor="let book of books">
@@ -18,11 +25,14 @@
           <p class="book-details">Published in {{ book.Year }}, {{ book.Country }}</p>
           <p class="book-description">{{ book.Genre }} genre, {{ book.Language }}, {{ book.Pages }} pages</p>
           <p class="book-description">{{ book.Description }}</p>
+          <button (click)="readBookDescription(book)">Read Description</button>
           <button (click)="rentBook(book.Title)">Rent</button>
         </article>
       </li>
     </ul>
   </section>
+
+  <!-- Display "No books found" message if there are no books and no error -->
   <div *ngIf="books.length === 0 && !errorMessage" class="no-results">
     <p>No books found.</p>
   </div>

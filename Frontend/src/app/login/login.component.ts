@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AccessibilityService } from '../service/accessibility.service';
 
 @Component({
   selector: 'app-login',
@@ -14,15 +15,34 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage: string = '';
-
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {}
+  selectedFontColor: string = '';
+  selectedFontSize: number = 16;
+  selectedFontFamily: string = ""
+  selectedBgColor: string = "";
+  
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router,private accessibilityService: AccessibilityService) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],  // Ensures username is required
       password: ['', Validators.required]  // Ensures password is required
     });
+    this.accessibilityService.fontColor$.subscribe(color => {
+      this.selectedFontColor = color;
+    });
+    this.accessibilityService.bgColor$.subscribe(bgcolor => {
+      this.selectedBgColor = bgcolor;
+    });
+    this.accessibilityService.fontSize$.subscribe(fontsize => {
+      this.selectedFontSize = fontsize;
+    });
+
+    this.accessibilityService.fontFamily$.subscribe(fontFamily => {
+      this.selectedFontFamily = fontFamily
+    });
+
   }
+
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
@@ -45,4 +65,6 @@ export class LoginComponent implements OnInit {
   onRegister(): void {
     this.router.navigate(['/register']);  // Navigation for user registration
   }
+
+
 }

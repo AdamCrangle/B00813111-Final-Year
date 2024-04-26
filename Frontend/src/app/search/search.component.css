@@ -1,56 +1,54 @@
 .search-container {
   width: 80%;
-  margin: 50px auto 0; /* Added top margin to push the container down */
-  font-family: 'Arial', sans-serif;
+  margin: 50px auto 0;
 }
 
 h1 {
   text-align: center;
-  color: #34495e; /* Dark Gray */
+  color: inherit;
 }
 
 .search-box {
   display: flex;
-  align-items: center; /* Align the items vertically */
+  align-items: center;
   justify-content: center;
   margin-bottom: 20px;
 }
 
 .search-dropdown, .search-input, .btn-search {
-  margin: 0 5px; /* Add margin to all sides for consistent spacing */
+  margin: 0 5px;
 }
 
-.search-dropdown {
-  padding: 10px; /* Increased padding for better alignment */
+.search-dropdown, .search-input {
+  padding: 10px;
   border-radius: 4px;
-  border: 1px solid #bdc3c7; /* Light gray border */
-  background-color: #ecf0f1; /* Light gray background */
+  border: 1px solid #bdc3c7;
+  background-color: inherit;
 }
 
 .search-input {
   flex: 1;
-  padding: 10px; /* Increased padding for better alignment */
-  border-radius: 4px;
-  border: 1px solid #bdc3c7; /* Light gray border */
-  background-color: #ecf0f1; /* Light gray background */
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
 }
 
 .btn-search {
-  padding: 10px 20px; /* Increased padding for a larger button */
+  padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background-color: #3498db; /* Blue */
+  background-color: #3498db; /* Change button color */
   color: white;
   cursor: pointer;
-  font-weight: bold; /* Make the text bold */
+  font-weight: bold;
 }
 
 .btn-search:hover {
-  background-color: #2980b9; /* Darker blue on hover */
+  background-color: #2980b9; /* Darker color on hover */
 }
 
 .error {
-  color: #e74c3c; /* Red */
+  color: #e74c3c;
   text-align: center;
   margin: 20px 0;
 }
@@ -62,27 +60,23 @@ h1 {
 .results-list {
   list-style: none;
   padding: 0;
+  color: inherit;
 }
 
 .results-list li {
   margin-bottom: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #bdc3c7; /* Light gray border */
+  border-bottom: 1px solid #bdc3c7;
 }
 
-.book-title {
-  font-size: 18px;
-  color: #34495e; /* Dark Gray */
-}
-
-.book-details {
-  font-size: 14px;
-  color: #7f8c8d; /* Gray */
+.book-title,
+.book-details,
+.book-description {
+  font-size: inherit;
+  color: inherit;
 }
 
 .book-description {
-  font-size: 16px;
-  color: #34495e; /* Dark Gray */
   margin-top: 5px;
 }
 
@@ -91,7 +85,6 @@ h1 {
   margin-top: 20px;
 }
 
-/* For screen readers only */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -101,4 +94,23 @@ h1 {
   overflow: hidden;
   clip: rect(0,0,0,0);
   border: 0;
+}
+
+.results-list button {
+  padding: 10px 20px; /* Add padding */
+  margin-right: 10px; /* Add margin to separate buttons */
+  border: none;
+  border-radius: 4px;
+  background-color: #2ecc71; /* Green */
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.results-list button:last-child {
+  margin-right: 0; /* Remove margin from last button */
+}
+
+.results-list button:hover {
+  background-color: #27ae60; /* Darker green on hover */
 }

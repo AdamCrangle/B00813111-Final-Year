@@ -17,6 +17,7 @@ client = MongoClient('mongodb+srv://adamcrangle0:pVvTCCMueTCiFfu1@cluster0.zdhwf
 db = client['Final_Year-Database']
 Mongo_users = db.users
 Mongo_books = db.books
+Mongo_reviews = db.reviews
 
 @app.route('/api/register', methods=['POST'])
 def Register_User():
@@ -173,6 +174,46 @@ def return_book():
         return jsonify({"message": "Book returned successfully"}), 200
     else:
         return jsonify({"message": "Failed to return book"}), 400
+    
+
+
+@app.route('/api/reviews', methods=['GET'])
+def get_reviews():
+    # Fetch all reviews, excluding MongoDB's _id field for compatibility
+    reviews = list(Mongo_reviews.find({}, {'_id': 0}))
+    return jsonify(reviews), 200
+
+
+@app.route('/api/reviews', methods=['POST'])
+def add_review():
+    data = request.json
+    required_fields = ['user', 'rating', 'comment', 'accessibility_rating']
+
+    # Validate that all required fields are present
+    if not all(field in data for field in required_fields):
+        return jsonify({"message": "All required fields must be provided"}), 400
+
+    # Validate rating and accessibility_rating to be between 1 and 5
+    rating = data.get('rating', 0)
+    accessibility_rating = data.get('accessibility_rating', 0)
+    
+    if not (1 <= rating <= 5) or not (1 <= accessibility_rating <= 5):
+        return jsonify({"message": "Rating and accessibility rating must be between 1 and 5"}), 400
+
+    # Create the review object
+    review = {
+        "user": data['user'],
+        "rating": data['rating'],
+        "comment": data['comment'],
+        "accessibility_rating": data['accessibility_rating'],
+    }
+
+    # Insert the new review into Mongo_reviews
+    Mongo_reviews.insert_one(review)
+
+    return jsonify({"message": "Review added successfully"}), 201
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

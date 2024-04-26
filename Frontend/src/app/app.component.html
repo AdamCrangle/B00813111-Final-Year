@@ -1,12 +1,45 @@
-<nav class="navbar">
-  <ul class="nav-links">
-    <li *ngIf="!isLoggedIn()"><a href="/" class="nav-button">Home</a></li>
-    <li *ngIf="!isLoggedIn()"><a href="/login" class="nav-button">Login</a></li>
-    <li *ngIf="isLoggedIn()"><a href="/account" class="nav-button">Account</a></li>
-    <li *ngIf="isLoggedIn()"><a href="/search" class="nav-button">Search</a></li>
-    <li *ngIf="isLoggedIn()"><button class="logout-button" (click)="logout()">Logout</button></li>
-  </ul>
-</nav>
+<div [style.color]="selectedFontColor" [style.fontSize.px]="selectedFontSize" [style.backgroundColor]="selectedBgColor" [style.fontFamily]="selectedFontFamily">
+  <nav class="navbar">
+    <ul class="nav-links">
+      <li><a href="/" class="nav-button">Home</a></li>
+      <li *ngIf="!isLoggedIn()"><a href="/login" class="nav-button">Login</a></li>
+      <li *ngIf="isLoggedIn()"><a href="/account" class="nav-button">Account</a></li>
+      <li *ngIf="isLoggedIn()"><a href="/search" class="nav-button">Search</a></li>
+      <li *ngIf="isLoggedIn()"><a href="/review" class="nav-button">Review</a></li>
+      <li *ngIf="isLoggedIn()"><a class="logout-button" (click)="logout()">Logout</a></li><select id="fontColorSelector" (change)="onFontColorChange($event)">
+        <option value="#000000">Black</option>
+        <option value="#333333">Dark Gray</option>
+        <option value="#666666">Gray</option>
+        <option value="#999999">Light Gray</option>
+        <option value="#dc3545">Red</option>
+        <option value="#007bff">Blue</option>
+        <option value="#28a745">Green</option>
+      </select>
+      
+      <select id="fontSizeSelector" (change)="onFontSizeChange($event)">
+        <option value="12">Small</option>
+        <option value="16">Medium</option>
+        <option value="24">Large</option>
+      </select>
+      
+      <select id="bgColorSelector" (change)="onBgColorChange($event)">
+        <option value="White">White</option>
+        <option value="Blue">Blue</option>
+        <option value="Red"> Red</option>
+        <option value="Green">Green</option>
+        <option value="Purple">Purple</option>
+      </select>
+      
+      <select id="fontTypeSelector" (change)="onFontTypeChange($event)">
+        <option value="Arial, Helvetica, sans-serif">Arial</option>
+        <option value="Verdana, sans-serif">Verdana</option>
+        <option value="Times New Roman, serif">Times New Roman</option>
+        <option value="Courier New, monospace">Courier New</option>
+        <option value="Roboto, sans-serif">Roboto</option>
+        <option value="Georgia, serif">Georgia</option>
+      </select>
 
-
-<router-outlet></router-outlet>
+    </ul>
+  </nav>
+  <router-outlet ></router-outlet>
+</div>

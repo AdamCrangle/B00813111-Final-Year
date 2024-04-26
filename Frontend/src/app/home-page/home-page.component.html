@@ -1,38 +1,40 @@
+<section class="header"[style.color]="selectedFontColor" [style.fontSize.px]="selectedFontSize" [style.background-color]="selectedBgColor" [style.fontFamily]="selectedFontFamily">
+  <div class="content">
+    <h1>Welcome to Our Book Library</h1>
+    <p>Find your next great read with us.</p>
+    <img src="assets/img_home1.jpg" alt="E-Library Collection" class="home_image_main">
+  </div>
+</section>
 
-  <!-- Hero Section -->
-  <section class="header">
-    <div class="content">
-      <h1>Welcome to Our Book Library</h1>
-      <p>Find your next great read with us.</p>
-      <a routerLink="/search" class="btn-main">Start Searching</a>
-    </div>
-  </section>
-  
-  <!-- Features Section -->
-  <section class="features">
-    <div class="feature-item">
+<section class="features" [style.color]="selectedFontColor" [style.fontSize.px]="selectedFontSize" [style.background-color]="selectedBgColor" [style.fontFamily]="selectedFontFamily">
+  <div class="feature-item">
+    <div class="feature-box">
       <h2>Extensive Collection</h2>
+      <img src="assets/img_home2.jpg" alt="Browse are extensive collection" class="home_image_sub">
       <p>Explore a wide variety of genres and authors.</p>
+      <p>From classic literature to modern bestsellers, there's something for everyone.</p>
     </div>
-    <div class="feature-item">
+  </div>
+
+  <div class="feature-item">
+    <div class="feature-box">
       <h2>User Reviews</h2>
+      <img src="assets/img_home3.jpg" alt="Leave a review" class="home_image_sub">
       <p>See what other readers have to say about your next book.</p>
+      <p>Get insights into popular titles from a community of avid readers.</p>
     </div>
-    <div class="feature-item">
+  </div>
+
+  <div class="feature-item">
+    <div class="feature-box">
       <h2>Easy to Use</h2>
-      <p>Quickly find and get recommendations for high-quality books.</p>
+      <img src="assets/img_home4.jpg" alt="Easy to use" class="home_image_sub">
+      <p>Quickly find and get recommendations for high-quality books based on fields such as genre and author.</p>
+      <p>Our intuitive interface makes finding books a breeze.</p>
     </div>
-  </section>
-  
-  <!-- About Section -->
-  <section class="about">
-    <h2>About Us</h2>
-    <p>Learn more about our mission to connect people with books they love.</p>
-    <a routerLink="/about" class="btn-secondary">Learn More</a>
-  </section>
-  
-  <!-- Footer -->
-  <footer class="footer">
-    <p>&copy; 2024 Book Library. All rights reserved.</p>
-  </footer>
-  
+  </div>
+</section>
+
+<footer class="footer">
+  <p>&copy; 2024 Book Library. All rights reserved.</p>
+</footer>

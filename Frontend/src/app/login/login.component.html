@@ -1,4 +1,4 @@
-<form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+<form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" [style.color]="selectedFontColor" [style.fontSize.px]="selectedFontSize" [style.background-color]="selectedBgColor" [style.fontFamily]="selectedFontFamily">
     <div class="form-group">
       <label for="username">Username:</label>
       <input type="text" id="username" formControlName="username" aria-describedby="username-error" class="form-input">

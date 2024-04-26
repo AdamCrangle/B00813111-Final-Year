@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { SearchComponent } from './search/search.component';
 import { AccountComponent } from './account/account.component';
+import { ReviewComponent } from './review/review.component';
 
 
 export const routes: Routes = 
@@ -14,6 +15,7 @@ export const routes: Routes =
     { path: 'register', component: RegisterComponent },
     { path: 'search', component: SearchComponent },
     { path: 'account', component: AccountComponent },
+    { path: 'review', component: ReviewComponent },
     
 
 ];

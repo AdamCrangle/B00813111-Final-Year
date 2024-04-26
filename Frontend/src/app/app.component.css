@@ -1,41 +1,55 @@
 /* Styles for the navbar */
 .navbar {
-  background-color: #2c3e50; /* Dark blue background */
-  padding: 10px 0; /* Padding above and below the navigation links */
-  width: 100%; /* Full width of the viewport */
+  background-color: #2c3e50;
+  padding: 10px 0;
+  width: 100%;
+  font-size: inherit; /* Allow dynamic font size to override */
 }
 
-/* Styles for the navigation links */
 .nav-links {
-  list-style-type: none; /* Remove default list styling */
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-  display: flex; /* Aligns children (buttons, span) in a row */
-  justify-content: center; /* Centers the navigation items in the nav */
-  align-items: center; /* Vertically aligns the navigation items */
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-links li {
-  margin: 0 10px; /* Margin between navigation items */
+  margin: 0 10px;
 }
 
 .nav-button, .logout-button {
-  color: #ecf0f1; /* Light gray text color */
-  padding: 8px 16px; /* Padding inside the button for better clickability */
-  font-family: 'Arial', sans-serif; /* Font style for the text */
-  font-size: 16px; /* Size of the text */
-  border: none; /* No border for buttons */
-  background-color: transparent; /* Transparent background color for buttons */
-  cursor: pointer; /* Pointer cursor for clickable items */
-  text-decoration: none; /* Remove default underline on links */
+  color: #ecf0f1;
+  padding: 8px 16px;
+  font-family: 'Arial', sans-serif;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .nav-button:hover, .logout-button:hover {
-  color: #3498db; /* Blue color on hover */
-  text-decoration: underline; /* Underline text on hover for better visibility */
+  color: #3498db;
+  text-decoration: underline;
 }
 
-/* Specific styles for the welcome message */
-span {
-  color: #ecf0f1; /* Light gray text color for the welcome message */
+.font-size-dropdown {
+  color: #ecf0f1;
+  font-size: inherit; /* Adjust font size to match */
 }
+
+.font-size-dropdown label {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.font-size-dropdown select {
+  padding: 5px;
+  font-size: inherit; /* Adjust font size to match */
+  border-radius: 5px;
+  border: none;
+  background-color: #555;
+  color: #fff;
+}
+

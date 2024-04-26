@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { AccessibilityService } from '../service/accessibility.service';
 
 @Component({
   selector: 'app-register',
@@ -14,8 +14,13 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  selectedFontColor: string = '';
+  selectedFontSize: number = 16;
+  selectedFontFamily: string = ""
+  selectedBgColor: string = "";
   
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {}
+  
+  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router, private accessibilityService: AccessibilityService) {}
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -25,7 +30,20 @@ export class RegisterComponent implements OnInit {
       confirmPassword: ['', Validators.required]
     }, { validator: this.checkPasswords });
 
-    // Check passwords match
+    this.accessibilityService.fontColor$.subscribe(color => {
+      this.selectedFontColor = color;
+    });
+    this.accessibilityService.bgColor$.subscribe(bgcolor => {
+      this.selectedBgColor = bgcolor;
+    });
+    this.accessibilityService.fontSize$.subscribe(fontsize => {
+      this.selectedFontSize = fontsize;
+    });
+
+    this.accessibilityService.fontFamily$.subscribe(fontFamily => {
+      this.selectedFontFamily = fontFamily
+    });
+
   }
 
   checkPasswords(group: FormGroup) {

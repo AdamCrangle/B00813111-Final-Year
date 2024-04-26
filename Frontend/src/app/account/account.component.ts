@@ -10,135 +10,136 @@ import { Book } from '../models/book';
   standalone: true,
   imports: [HttpClientModule, CommonModule],
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.css'], // styles specific to this component
 })
 export class AccountComponent implements OnInit {
-  currentUser: User | null = null;  // Initialize with a null check
-  bookDetails: Book[] = [];
-  rentalHistoryDetails: Book[] = [];  // Array for returned book details
-  errorMessage: string = '';
-  private apiUrl = 'http://localhost:5000/api';  // Adjust with your Flask API URL
+  // User-related information
+  user: User | null = null;
+  activeBooks: Book[] = [];
+  rentalHistory: Book[] = [];
+  error: string = ''; // For storing error messages
+  private baseUrl = 'http://localhost:5000/api'; // Flask API endpoint
   
   constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef
+    private http: HttpClient, // HTTP client for making requests
+    private cdr: ChangeDetectorRef // Change detector for manual refresh
   ) {}
 
   ngOnInit(): void {
-    this.updateCurrentUser();
+    this.loadUser();
   }
-  private getUsername(): string | null {
+
+  // Helper function to get the username from local storage
+  private getStoredUsername(): string | null {
     const userData = localStorage.getItem('user');
-    if (userData) {
-      const parsedData = JSON.parse(userData);
-      return parsedData.username;  // Get the username
-    }
-    return null;
-  }
-  private updateCurrentUser(): void {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      try {
-        const parsedData = JSON.parse(userData);
-        this.http.get<User>(`${this.apiUrl}/users/${parsedData.username}`).subscribe({
-          next: (user) => {
-            this.currentUser = user;
-
-            if (this.currentUser.currentlyRented) {
-              const rentedBookTitles = this.extractBookTitles(this.currentUser.currentlyRented);
-              this.getBookDetails(rentedBookTitles);  // Fetch currently rented book details
-            }
-
-            if (this.currentUser.rentalHistory) {
-              const rentalHistoryTitles = this.extractBookTitles(this.currentUser.rentalHistory);
-              this.getRentalHistoryDetails(rentalHistoryTitles);  // Fetch rental history book details
-            }
-
-            this.cdr.detectChanges();
-          },
-          error: (err) => {
-            this.errorMessage = 'Error fetching user data';
-            console.error(err);
-          }
-        });
-      } catch (error) {
-        console.error('Error parsing user data:', error);
-      }
-    }
-  }
-
-  private extractBookTitles(bookObjects: any[]): string[] {
-    return bookObjects.map((book) => {
-      if (typeof book === 'object' && book.Title) {
-        return book.Title;  // Extract the book title as a string
-      }
-      return '';  // Default to an empty string if there's no valid title
-    }).filter((title) => title.trim() !== '');  // Remove empty or invalid titles
-  }
-
-  private getBookDetails(bookTitles: string[]): void {
-    if (bookTitles.length === 0) {
-      this.bookDetails = [];
-      return;
+    if (!userData) {
+      return null; // No stored user data
     }
 
-    const bookObservables = bookTitles.map((title) =>
-      this.http.get<Book[]>(`${this.apiUrl}/search_books?type=Title&keyword=${encodeURIComponent(title)}`)
-    );
+    const parsedData = JSON.parse(userData);
+    return parsedData.username || null;
+  }
 
-    forkJoin(bookObservables).subscribe({
-      next: (bookData) => {
-        this.bookDetails = bookData.map((data) => data[0]);  // Get the first book from each response
-        this.cdr.detectChanges();  // Trigger change detection
+  // Update user information
+  private loadUser(): void {
+    const username = this.getStoredUsername(); // Retrieve stored username
+    if (!username) return; // No username means no user data to fetch
+
+    const url = `${this.baseUrl}/users/${username}`; // Construct the API endpoint
+
+    this.http.get<User>(url).subscribe({
+      next: (userInfo) => {
+        this.user = userInfo; // Update the current user info
+        
+        // Load book details
+        const rentedTitles = this.extractTitles(this.user.currentlyRented || []);
+        this.fetchBookDetails(rentedTitles); 
+
+        const historyTitles = this.extractTitles(this.user.rentalHistory || []);
+        this.fetchHistoryDetails(historyTitles);
+
+        this.cdr.detectChanges(); // Refresh the view
       },
       error: (err) => {
-        this.errorMessage = 'Error fetching book details';
-        console.error(err);
-      }
+        console.error('Error fetching user data', err);
+        this.error = 'Error fetching user information.';
+      },
     });
   }
 
-  private getRentalHistoryDetails(bookTitles: string[]): void {
-    if (bookTitles.length === 0) {
-      this.rentalHistoryDetails = [];
+  // Extract titles from a list of book objects
+  private extractTitles(books: any[]): string[] {
+    return books
+      .map((book) => (book?.Title || '').trim()) // Extract and trim titles
+      .filter((title) => title); // Only keep valid titles
+  }
+
+  // Fetch details of currently rented books
+  private fetchBookDetails(titles: string[]): void {
+    if (titles.length === 0) {
+      this.activeBooks = []; // No books rented
       return;
     }
 
-    const bookObservables = bookTitles.map((title) =>
-      this.http.get<Book[]>(`${this.apiUrl}/search_books?type=Title&keyword=${encodeURIComponent(title)}`)
+    const requests = titles.map((title) =>
+      this.http.get<Book[]>(`${this.baseUrl}/search_books?type=Title&keyword=${encodeURIComponent(title)}`)
     );
 
-    forkJoin(bookObservables).subscribe({
+    forkJoin(requests).subscribe({
       next: (bookData) => {
-        this.rentalHistoryDetails = bookData.map((data) => data[0]);  // Get the first book from each response
-        this.cdr.detectChanges();  // Manually trigger change detection
+        this.activeBooks = bookData.map((data) => data[0]); // Get the first result from each response
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        this.errorMessage = 'Error fetching rental history book details';
-        console.error(err);
-      }
+        console.error('Error fetching book details', err);
+        this.error = 'Error fetching book details.';
+      },
     });
   }
 
-  public returnBook(bookTitle: string): void {
-    const username = this.getUsername();  // Fetch the current user's username
+  // Fetch details of returned books
+  private fetchHistoryDetails(titles: string[]): void {
+    if (titles.length === 0) {
+      this.rentalHistory = []; // No rental history
+      return;
+    }
+
+    const requests = titles.map((title) =>
+      this.http.get<Book[]>(`${this.baseUrl}/search_books?type=Title&keyword=${encodeURIComponent(title)}`)
+    );
+
+    forkJoin(requests).subscribe({
+      next: (bookData) => {
+        this.rentalHistory = bookData.map((data) => data[0]); // Get the first result from each response
+        this.cdr.detectChanges(); // Refresh view
+      },
+      error: (err) => {
+        console.error('Error fetching rental history book details', err);
+        this.error = 'Problem fetching rental history details.';
+      },
+    });
+  }
+
+  // Function to return a rented book
+  public returnBook(title: string): void {
+    const username = this.getStoredUsername(); // Get the current user's name
 
     if (!username) {
-      this.errorMessage = 'User must be logged in to return a book.';
+      this.error = 'You must be logged in to return a book.'; // No user logged in
       return;
     }
 
-    this.http.post<any>(`${this.apiUrl}/return_book`, { username, Title: bookTitle })
-      .subscribe({
-        next: (response) => {
-          console.log('Book returned:', response.message);
-          // Update the currently rented books and rental history
-          this.updateCurrentUser();
-        },
-        error: (err) => {
-          this.errorMessage = 'Failed to return book.';
-          console.error(err);
-        }
-      });
+    const data = { username, Title: title };
+
+    this.http.post<any>(`${this.baseUrl}/return_book`, data).subscribe({
+      next: (response) => {
+        console.log('Book returned:', response.message);
+        this.loadUser(); // Refresh user data after returning a book
+      },
+      error: (err) => {
+        console.error('Error returning book', err);
+        this.error = 'Could not return the book.';
+      },
+    });
   }
 }

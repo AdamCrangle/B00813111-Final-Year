@@ -1,0 +1,113 @@
+<div class="review-container" role="main" [style.color]="selectedFontColor" [style.fontSize.px]="selectedFontSize" [style.background-color]="selectedBgColor" [style.fontFamily]="selectedFontFamily">
+    <h1>Site Reviews</h1>
+    <div class="review-box" role="form" aria-labelledby="add-review-heading">
+      <h2 id="add-review-heading">Add Your Review</h2>
+      <label for="reviewUser">Your Name</label>
+      <input
+        type="text"
+        id="reviewUser"
+        class="review-input"
+        placeholder="Your Name"
+        [(ngModel)]="newReview.user"
+        required
+        aria-required="true"
+      />
+  
+      <label for="reviewRating">Rating (1-5)</label>
+      <input
+        type="number"
+        id="reviewRating"
+        class="review-input"
+        min="1"
+        max="5"
+        placeholder="Rating (1-5)"
+        [(ngModel)]="newReview.rating"
+        required
+        aria-required="true"
+      />
+  
+      <label for="accessibilityRating">Accessibility Rating (1-5)</label>
+      <input
+        type="number"
+        id="accessibilityRating"
+        class="review-input"
+        min="1"
+        max="5"
+        placeholder="Accessibility Rating (1-5)"
+        [(ngModel)]="newReview.accessibility_rating"
+        required
+        aria-required="true"
+      />
+  
+      <label for="reviewComment">Comment</label>
+      <textarea
+        id="reviewComment"
+        class="review-textarea"
+        placeholder="Your Comment"
+        [(ngModel)]="newReview.comment"
+        required
+        aria-required="true"
+      ></textarea>
+  
+      <button class="btn-submit" (click)="submitReview()">Submit Review</button>
+    </div>
+  
+    <!-- Success and error messages -->
+    <div
+      *ngIf="errorMessage"
+      class="error"
+      role="alert"
+      aria-live="assertive"
+    >
+      {{ errorMessage }}
+    </div>
+    <div
+      *ngIf="successMessage"
+      class="success"
+      role="alert"
+      aria-live="assertive"
+    >
+      {{ successMessage }}
+    </div>
+  
+    <!-- List of existing reviews -->
+    <section
+      *ngIf="reviews.length > 0"
+      class="reviews-container"
+      aria-labelledby="reviews-list-heading"
+    >
+      <h2 id="reviews-list-heading">Customer Reviews</h2>
+      <ul class="reviews-list">
+        <li
+          *ngFor="let review of reviews"
+          class="review-item"
+          tabindex="0"
+        >
+          <article>
+            <h3 class="review-user">
+              <strong>{{ review.user }}</strong>
+            </h3>
+            <p class="review-rating">
+              Rating:
+              <span *ngFor="let star of getStars(review.rating)">{{ star }}</span>
+            </p>
+            <p class="review-accessibility">
+              Accessibility Rating:
+              <span *ngFor="let star of getStars(review.accessibility_rating)">{{ star }}</span>
+            </p>
+            <p class="review-comment">{{ review.comment }}</p>
+          </article>
+        </li>
+      </ul>
+    </section>
+  
+    <!-- Message if no reviews are found -->
+    <div
+      *ngIf="reviews.length === 0 && !errorMessage"
+      class="no-reviews"
+      aria-live="polite"
+    >
+      <p>No reviews found.</p>
+    </div>
+  </div>
+  
