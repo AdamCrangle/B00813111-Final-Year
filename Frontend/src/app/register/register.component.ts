@@ -46,6 +46,7 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  //ensuring that the passwords entered are the same if not display a error
   checkPasswords(group: FormGroup) {
     let pass = group.get('password')?.value;
     let confirmPass = group.get('confirmPassword')?.value;
@@ -56,6 +57,7 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return; // Form is not valid, don't submit
     }
+    //if information is invalid pass the form to to the flask via an api call
     const formData = this.registerForm.value;
     this.http.post<any>('http://localhost:5000/api/register', formData).subscribe(
       response => {

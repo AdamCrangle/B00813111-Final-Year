@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+from flask_jwt_extended import JWTManager, create_access_token
 from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
@@ -19,6 +19,8 @@ Mongo_users = db.users
 Mongo_books = db.books
 Mongo_reviews = db.reviews
 
+
+#This is my flask method for generating a user account via a post request
 @app.route('/api/register', methods=['POST'])
 def Register_User():
     data = request.json
@@ -29,14 +31,14 @@ def Register_User():
     email = data.get('email')
     password = data['password']
 
-    #Encrypting Password for security purposes
+    #The Encrypting Password is established for security purposes
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    # Check for existing user
+    # Validation checks such as ensuring the username is not already in use is completed
     if Mongo_users.find_one({"username": username}):
         return jsonify({'message': 'User already exists'}), 409
 
-    # Creating New User
+    # Uploading new users details to MongoDB 
     Mongo_users.insert_one({
         "email": email,
         "username": username,
@@ -44,15 +46,21 @@ def Register_User():
         "rentalHistory": [],
         "currentlyRented": []
     })
+    #a successful response will be sent
     return jsonify({'message': 'Test user created successfully'}), 201
 
+
+#This is my flask method for accessing a user account via a post request
 @app.route('/api/login', methods=['POST'])
 def login():
+    #Recieving user data
     username = request.json.get('username')
     password = request.json.get('password')
     user = Mongo_users.find_one({"username": username})
 
+    #decrypting user info and checking for valid user
     if user and bcrypt.check_password_hash(user['password'], password):
+        #generating an access token
         access_token = create_access_token(identity=username)
         user_data = {
             'username': username,
@@ -60,19 +68,21 @@ def login():
             'rentalHistory' : user['rentalHistory'],
             'currentlyRented' : user['currentlyRented']
         }
+        #sending successful login reponse
         return jsonify(access_token=access_token, user=user_data), 200
-
+    #sending failed login response
     return jsonify({"msg": "Invalid username or password"}), 401
 
 
 
-
+#This is my flask method for searching for a book via a get request
 @app.route('/api/search_books', methods=['GET'])
 def search_books():
+    #check search type example - title,author,genre
     search_type = request.args.get('type')
     keyword = request.args.get('keyword')
-    print(search_type)
-    print(keyword)
+
+    #validation for if no user input
     if not keyword:
         return jsonify({"error": f"No {search_type} provided"}), 400
     field_map = {
@@ -85,7 +95,7 @@ def search_books():
     # Get the correct field to search on, default to 'title' if not found
     search_field = field_map.get(search_type, 'Title')
 
-    regex_pattern = f"\\b{re.escape(keyword)}"  # \b asserts a word boundary
+    regex_pattern = f"\\b{re.escape(keyword)}"  # \b asserts a word boundary for the system to check from
 
     books_cursor = Mongo_books.find(
         {search_field: {"$regex": regex_pattern, "$options": "i"}},

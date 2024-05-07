@@ -25,6 +25,7 @@ export class ReviewComponent implements OnInit {
   constructor(private http: HttpClient, private accessibilityService: AccessibilityService) {}
 
   ngOnInit(): void {
+    //On page load all the reviews are collected
     this.fetchReviews();
     this.accessibilityService.fontColor$.subscribe(color => {
       this.selectedFontColor = color;
@@ -41,6 +42,7 @@ export class ReviewComponent implements OnInit {
     });
   }
 
+  //The reviews are collected through a call to the flask api
   fetchReviews(): void {
     this.http.get<Review[]>('http://localhost:5000/api/reviews').subscribe(
       (data) => {
@@ -52,14 +54,15 @@ export class ReviewComponent implements OnInit {
       }
     );
   }
-
+//This function allows for the adding of new reviews via a post request to the flask
   submitReview(): void {
     this.http.post('http://localhost:5000/api/reviews', this.newReview).subscribe(
       () => {
         this.successMessage = 'Review submitted successfully';
         this.errorMessage = null;
         this.newReview = {};  // Clear the form after submission
-        this.fetchReviews();  // Refresh the list of reviews
+        //The form is then reloaded to ensure that new reviews are displayed
+        this.fetchReviews();
       },
       (error) => {
         this.successMessage = null;
@@ -70,6 +73,6 @@ export class ReviewComponent implements OnInit {
 
   // Convert rating into an array of stars
   getStars(rating: number): string[] {
-    return Array(rating).fill('★');  // Create an array with filled stars
+    return Array(rating).fill('★');
   }
 }

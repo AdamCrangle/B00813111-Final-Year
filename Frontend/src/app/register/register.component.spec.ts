@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { By } from '@angular/platform-browser';
 import { RegisterComponent } from './register.component';
 
 describe('RegisterComponent', () => {
@@ -19,5 +19,12 @@ describe('RegisterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  //Testing register form container
+  it('should have working register form container', () => {
+    fixture.detectChanges();
+    const register = fixture.debugElement.query(By.css('.register-form'));
+    expect(register).toBeDefined();
   });
 });

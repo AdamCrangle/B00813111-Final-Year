@@ -37,14 +37,14 @@ h1 {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background-color: #3498db; /* Change button color */
+  background-color: #3498db;
   color: white;
   cursor: pointer;
   font-weight: bold;
 }
 
 .btn-search:hover {
-  background-color: #2980b9; /* Darker color on hover */
+  background-color: #2980b9;
 }
 
 .error {
@@ -97,20 +97,20 @@ h1 {
 }
 
 .results-list button {
-  padding: 10px 20px; /* Add padding */
-  margin-right: 10px; /* Add margin to separate buttons */
+  padding: 10px 20px;
+  margin-right: 10px;
   border: none;
   border-radius: 4px;
-  background-color: #2ecc71; /* Green */
+  background-color: #2ecc71;
   color: white;
   cursor: pointer;
   font-weight: bold;
 }
 
 .results-list button:last-child {
-  margin-right: 0; /* Remove margin from last button */
+  margin-right: 0;
 }
 
 .results-list button:hover {
-  background-color: #27ae60; /* Darker green on hover */
+  background-color: #27ae60;
 }

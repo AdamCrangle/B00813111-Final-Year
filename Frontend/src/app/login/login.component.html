@@ -1,3 +1,4 @@
+<!--The form for my register page each section has a required statement added to ensure that all fields must be entered for the account to be logged in-->
 <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" [style.color]="selectedFontColor" [style.fontSize.px]="selectedFontSize" [style.background-color]="selectedBgColor" [style.fontFamily]="selectedFontFamily">
     <div class="form-group">
       <label for="username">Username:</label>
@@ -6,7 +7,7 @@
         Username is required.
       </div>
     </div>
-  
+<!--Most sections  of this page feature aria labels to assist users with seeing problems further enhancing the useability of the site-->
     <div class="form-group">
       <label for="password">Password:</label>
       <input type="password" id="password" formControlName="password" aria-describedby="password-error" class="form-input">

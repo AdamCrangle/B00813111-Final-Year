@@ -1,3 +1,4 @@
+// An angular model for the layout of user objects
 export interface User {
     _id: string;
     email: string;

@@ -1,3 +1,4 @@
+// An angular model for the layout of review objects
 export interface Review 
 {
 

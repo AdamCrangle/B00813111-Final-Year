@@ -8,6 +8,7 @@ import { AccountComponent } from './account/account.component';
 import { ReviewComponent } from './review/review.component';
 
 
+//Creating routes to each component
 export const routes: Routes = 
 [  
     { path: '', component: HomePageComponent },

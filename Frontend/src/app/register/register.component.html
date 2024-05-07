@@ -1,3 +1,4 @@
+<!--The form for my register page each section has a required statement added to ensure that all fields must be entered for the account to be generated-->
 <form *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form"[style.color]="selectedFontColor" [style.fontSize.px]="selectedFontSize" [style.background-color]="selectedBgColor" [style.fontFamily]="selectedFontFamily">
     <div class="form-group">
       <h1>Register</h1>

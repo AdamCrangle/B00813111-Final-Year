@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-
+//This section of my code controls the login functionality
   onSubmit(): void {
     if (this.loginForm.invalid) {
       this.errorMessage = 'Please fill in all fields.';
@@ -52,10 +52,13 @@ export class LoginComponent implements OnInit {
     const formData = this.loginForm.value;
     this.http.post<any>('http://localhost:5000/api/login', formData).subscribe(
       response => {
+
+        // A token is added to local storage that allows the user to navigate the site and improves overall security
         localStorage.setItem('token', response.access_token);
         localStorage.setItem('user', JSON.stringify(response.user)); // Store user data
         this.router.navigate(['/']);  // Navigate to the home page
       },
+      //validation for incorrect credentials
       error => {
         this.errorMessage = 'Login failed. Please check your credentials.';
         console.error(error);

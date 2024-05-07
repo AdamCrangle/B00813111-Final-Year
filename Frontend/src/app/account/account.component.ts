@@ -10,14 +10,14 @@ import { Book } from '../models/book';
   standalone: true,
   imports: [HttpClientModule, CommonModule],
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css'], // styles specific to this component
+  styleUrls: ['./account.component.css'],
 })
 export class AccountComponent implements OnInit {
-  // User-related information
+  // intialising variables to be used on this component
   user: User | null = null;
   activeBooks: Book[] = [];
   rentalHistory: Book[] = [];
-  error: string = ''; // For storing error messages
+  error: string = '';
   private baseUrl = 'http://localhost:5000/api'; // Flask API endpoint
   
   constructor(
@@ -29,13 +29,13 @@ export class AccountComponent implements OnInit {
     this.loadUser();
   }
 
-  // Helper function to get the username from local storage
+  // function to get the username from local storage
   private getStoredUsername(): string | null {
     const userData = localStorage.getItem('user');
     if (!userData) {
       return null; // No stored user data
     }
-
+    //Converts the json into an object
     const parsedData = JSON.parse(userData);
     return parsedData.username || null;
   }
@@ -45,7 +45,7 @@ export class AccountComponent implements OnInit {
     const username = this.getStoredUsername(); // Retrieve stored username
     if (!username) return; // No username means no user data to fetch
 
-    const url = `${this.baseUrl}/users/${username}`; // Construct the API endpoint
+    const url = `${this.baseUrl}/users/${username}`;
 
     this.http.get<User>(url).subscribe({
       next: (userInfo) => {
@@ -67,11 +67,11 @@ export class AccountComponent implements OnInit {
     });
   }
 
-  // Extract titles from a list of book objects
+  // Extract the title of the books the user has linked to their account
   private extractTitles(books: any[]): string[] {
     return books
-      .map((book) => (book?.Title || '').trim()) // Extract and trim titles
-      .filter((title) => title); // Only keep valid titles
+      .map((book) => (book?.Title || '').trim())
+      .filter((title) => title);
   }
 
   // Fetch details of currently rented books
@@ -80,7 +80,7 @@ export class AccountComponent implements OnInit {
       this.activeBooks = []; // No books rented
       return;
     }
-
+    //get all book details based on their title
     const requests = titles.map((title) =>
       this.http.get<Book[]>(`${this.baseUrl}/search_books?type=Title&keyword=${encodeURIComponent(title)}`)
     );

@@ -1,12 +1,15 @@
 <div [style.color]="selectedFontColor" [style.fontSize.px]="selectedFontSize" [style.backgroundColor]="selectedBgColor" [style.fontFamily]="selectedFontFamily">
   <nav class="navbar">
     <ul class="nav-links">
+      <!--Html Code for the navigation bar key functionality is hidden until the user has logged in-->
       <li><a href="/" class="nav-button">Home</a></li>
       <li *ngIf="!isLoggedIn()"><a href="/login" class="nav-button">Login</a></li>
       <li *ngIf="isLoggedIn()"><a href="/account" class="nav-button">Account</a></li>
       <li *ngIf="isLoggedIn()"><a href="/search" class="nav-button">Search</a></li>
       <li *ngIf="isLoggedIn()"><a href="/review" class="nav-button">Review</a></li>
-      <li *ngIf="isLoggedIn()"><a class="logout-button" (click)="logout()">Logout</a></li><select id="fontColorSelector" (change)="onFontColorChange($event)">
+      <li *ngIf="isLoggedIn()"><a class="logout-button" (click)="logout()">Logout</a></li>
+      <!--This area of the html controls the accessibility of the site-->
+      <select id="fontColorSelector" (change)="onFontColorChange($event)">
         <option value="#000000">Black</option>
         <option value="#333333">Dark Gray</option>
         <option value="#666666">Gray</option>
@@ -15,21 +18,18 @@
         <option value="#007bff">Blue</option>
         <option value="#28a745">Green</option>
       </select>
-      
       <select id="fontSizeSelector" (change)="onFontSizeChange($event)">
         <option value="12">Small</option>
         <option value="16">Medium</option>
         <option value="24">Large</option>
-      </select>
-      
+      </select> 
       <select id="bgColorSelector" (change)="onBgColorChange($event)">
         <option value="White">White</option>
         <option value="Blue">Blue</option>
         <option value="Red"> Red</option>
         <option value="Green">Green</option>
         <option value="Purple">Purple</option>
-      </select>
-      
+      </select>   
       <select id="fontTypeSelector" (change)="onFontTypeChange($event)">
         <option value="Arial, Helvetica, sans-serif">Arial</option>
         <option value="Verdana, sans-serif">Verdana</option>
@@ -41,5 +41,6 @@
 
     </ul>
   </nav>
+  <!--This allows for the loading of different pages while still featuring the content of the page such as the navbar-->
   <router-outlet ></router-outlet>
 </div>

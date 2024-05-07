@@ -70,6 +70,8 @@ export class SearchComponent implements OnInit {
         }
       });
   }
+
+  //function allowing the current user to rent a book
   rentBook(bookTitle: string): void {
     const username = this.getUsername(); // Function to get current user's username
 
@@ -95,10 +97,12 @@ export class SearchComponent implements OnInit {
     const userData = localStorage.getItem('user');
     if (userData) {
       const parsedData = JSON.parse(userData);
-      return parsedData.username;  // Extract username from user data
+      return parsedData.username;//return the username of the user
     }
     return null;
   }
+
+  //This function allows for the text to speech functionality
   readBookDescription(book: any) {
     const speechSynthesis = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance();

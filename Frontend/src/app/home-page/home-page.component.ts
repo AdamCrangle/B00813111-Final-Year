@@ -20,7 +20,7 @@ export class HomePageComponent implements OnInit
 
   ngOnInit() 
   {
-
+    // Loading all of the accessibility options from previous pages
     this.accessibilityService.fontColor$.subscribe(color => {
       this.selectedFontColor = color;
     });
